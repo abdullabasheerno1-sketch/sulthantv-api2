@@ -1,12 +1,12 @@
 {
   "name": "sulthantv-api",
   "version": "1.0.0",
-  "description": "Stream Extractor",
+  "description": "Lightweight Extractor",
   "main": "index.js",
   "scripts": {
     "start": "node index.js"
   },
   "dependencies": {
-    "puppeteer": "^21.0.0"
+    "node-fetch": "^2.6.7"
   }
 }
