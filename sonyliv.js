@@ -9,16 +9,12 @@ export default async function handler(req, res) {
   try {
     const response = await fetch(targetUrl, {
       headers: {
-        'User-Agent': 'Mozilla/5.0 (Linux; Android 10; K) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Mobile Safari/537.36',
+        'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36',
         'Referer': 'https://www.sonyliv.com/',
         'Origin': 'https://www.sonyliv.com'
       }
     });
     
-    if (!response.ok) {
-      throw new Error(`Upstream returned status ${response.status}`);
-    }
-
     const data = await response.text();
 
     res.setHeader('Content-Type', 'application/vnd.apple.mpegurl');
