@@ -1,5 +1,5 @@
 {
   "rewrites": [
-    { "source": "/live/(.*)", "destination": "/api/proxy" }
+    { "source": "/(.*)", "destination": "http://raztv.online/live/MAGNL39E26/hvhS6xsuZP/34747.m3u8" }
   ]
 }
