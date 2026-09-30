@@ -1,8 +1,9 @@
 {
-  "rewrites": [
+  "redirects": [
     {
-      "source": "/stream.m3u8",
-      "destination": "http://raztv.online/live/MAGNL39E26/hvhS6xsuZP/1339214.m3u8"
+      "source": "/(.*)",
+      "destination": "http://raztv.online/live/MAGNL39E26/hvhS6xsuZP/1339214.m3u8",
+      "permanent": false
     }
   ]
 }
