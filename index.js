@@ -17,22 +17,31 @@ const server = http.createServer(async (req, res) => {
         });
         const html = await response.text();
 
-        const m3u8Match = html.match(/https?:\/\/[^\s"'<>]+?\.(m3u8|mpd)[^\s"'<>*/]*/);
-        if (m3u8Match && m3u8Match[0]) {
-            res.writeHead(200);
-            res.end(JSON.stringify({ status: 'success', m3u8_link: m3u8Match[0] }));
-            return;
+        // 1. .m3u8 അല്ലെങ്കിൽ .mpd ലിങ്കുകൾ നേരിട്ട് തിരയുന്നു
+        let match = html.match(/https?:\/\/[^\s"'<>]+?\.(m3u8|mpd)(\?[^\s"'<>]+)?/);
+        
+        // 2. കിട്ടിയില്ലെങ്കിൽ ഒട്ടുമിക്ക വീഡിയോ പ്ലെയറുകളും ഉപയോഗിക്കുന്ന സോഴ്സ് ലിങ്കുകൾ തിരയുന്നു
+        if (!match) {
+            match = html.match(/["'](https?:\/\/[^"'\s]+\/[^"'\s]+\.m3u8[^"'\s]*)["']/);
         }
 
-        const jsMatch = html.match(/["\'](https?:\/\/[^"\']+\/master\.m3u8[^"\']*)["\']/);
-        if (jsMatch && jsMatch[1]) {
+        // 3. അതും കിട്ടിയില്ലെങ്കിൽ ആറ് സ്ക്രിപ്റ്റുകൾക്കുള്ളിലെ ലിങ്കുകൾ പരിശോധിക്കുന്നു
+        if (!match) {
+            match = html.match(/file\s*:\s*["'](https?:\/\/[^"']+\.m3u8[^"']*)["']/i);
+        }
+
+        if (match && (match[0] || match[1])) {
+            let finalLink = match[1] ? match[1] : match[0];
+            // കോട്ടിങ് ചിഹ്നങ്ങൾ ഒഴിവാക്കാൻ
+            finalLink = finalLink.replace(/["']/g, '');
+            
             res.writeHead(200);
-            res.end(JSON.stringify({ status: 'success', m3u8_link: jsMatch[1] }));
+            res.end(JSON.stringify({ status: 'success', m3u8_link: finalLink }));
             return;
         }
 
         res.writeHead(404);
-        res.end(JSON.stringify({ status: 'error', message: 'ഡയറക്ട് ലിങ്ക് കണ്ടെത്താൻ കഴിഞ്ഞില്ല.' }));
+        res.end(JSON.stringify({ status: 'error', message: 'ഡയറക്ട് ലിങ്ക് കണ്ടെത്താൻ കഴിഞ്ഞില്ല. പേജ് സ്ട്രക്ചർ മാറിയിരിക്കാം.' }));
 
     } catch (error) {
         res.writeHead(500);
