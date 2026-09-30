@@ -1,6 +1,8 @@
 export default async function handler(req, res) {
+  // വിവിധ ചാനലുകളുടെ ലിങ്കുകൾ ഇവിടെ ID പ്രകാരം മാപ്പ് ചെയ്യാം
   const channels = {
-    "1": "https://sonydaimenew.akamaized.net/hls/live/2120299/ag_strea2909/ENG/std_lrh-800300010.m3u8?hdnea=exp=1790819524~acl=/*~id=54759111454795448836551320778947~hmac=8d2bad0f2433f570017f1a1e4e439f202b64c4f50da3cf2ebcf7b8d4012f8ada",
+    "1": "https://dishmt.slivcdn.com/hls/live/2020434-b/TEN2HD/master.m3u8",
+    // നിങ്ങൾക്ക് ആവശ്യമുള്ള മറ്റ് ചാനൽ ലിങ്കുകൾ ഇവിടെ "2", "3" എന്നിങ്ങനെ ആഡ് ചെയ്യാം
   };
 
   const channelId = req.query.id || "1";
