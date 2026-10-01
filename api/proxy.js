@@ -4,16 +4,20 @@ export default async function handler(req, res) {
   try {
     const response = await fetch(targetUrl, {
       headers: {
-        "User-Agent": "Mozilla/5.0 (Linux; Android 16; V2534) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Mobile Safari/537.36",
+        "User-Agent": "VLC/3.0.18 LibVLC/3.0.18",
         "Referer": "http://raztv.online/"
       }
     });
+
+    if (!response.ok) {
+      throw new Error(`HTTP error! status: ${response.status}`);
+    }
 
     const data = await response.text();
     res.setHeader('Content-Type', 'application/vnd.apple.mpegurl');
     res.setHeader('Access-Control-Allow-Origin', '*');
     res.status(200).send(data);
   } catch (error) {
-    res.status(500).send('Stream Error');
+    res.status(500).send('Stream Error: ' + error.message);
   }
 }
