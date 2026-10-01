@@ -1,5 +1,7 @@
 export default async function handler(req, res) {
-  const targetUrl = "http://raztv.online/live/MAGNL39E26/hvhS6xsuZP/34747.m3u8";
+  const token = req.query.token;
+  const baseUrl = "http://raztv.online/live/MAGNL39E26/hvhS6xsuZP/34747.m3u8";
+  const targetUrl = token ? `${baseUrl}?token=${token}` : baseUrl;
 
   try {
     const response = await fetch(targetUrl, {
