@@ -7,7 +7,7 @@ export default async function handler(req, res) {
     const response = await fetch(targetUrl, {
       headers: {
         "User-Agent": "VLC/3.0.18 LibVLC/3.0.18",
-        "Referer": "http://raztv.online/"
+        "Referer": "http://raztv.online//"
       }
     });
 
